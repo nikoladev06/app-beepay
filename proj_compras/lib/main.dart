@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:proj_compras/view/inicio_view.dart';
 import 'package:proj_compras/view/cadastrar_view.dart';
+import 'package:proj_compras/view/login_view.dart';
 
 void main() {
   runApp(
@@ -24,6 +25,7 @@ class MainApp extends StatelessWidget {
       routes: {
         'inicio': (context) => InicioView(),
         'cadastrar': (context) => CadastrarView(),
+        'login': (context) => LoginView(),
       }
     );
   }

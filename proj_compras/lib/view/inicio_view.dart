@@ -16,7 +16,7 @@ class InicioView extends StatelessWidget {
 
                 // Logo
                 Image.asset(
-                  'logoappintegra.png', // ajuste o path conforme seu projeto
+                  'logoappintegra.png', 
                   height: 225,
                   width: 225,
                   fit: BoxFit.contain,
