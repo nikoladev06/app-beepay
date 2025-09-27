@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
-
+import 'package:proj_compras/view/inicio_view.dart';
+import 'package:proj_compras/view/cadastrar_view.dart';
 
 void main() {
   runApp(
@@ -17,11 +18,13 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      title: 'Navegação',
+      initialRoute: 'inicio',
+      routes: {
+        'inicio': (context) => InicioView(),
+        'cadastrar': (context) => CadastrarView(),
+      }
     );
   }
 }
