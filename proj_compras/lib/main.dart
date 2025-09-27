@@ -4,6 +4,7 @@ import 'package:proj_compras/view/inicio_view.dart';
 import 'package:proj_compras/view/cadastrar_view.dart';
 import 'package:proj_compras/view/login_view.dart';
 import 'package:proj_compras/view/recuperarsenha_view.dart';
+import 'package:proj_compras/view/sobre_view.dart';
 import 'package:proj_compras/view/telaprincipal_view.dart';
 
 void main() {
@@ -29,7 +30,8 @@ class MainApp extends StatelessWidget {
         'cadastrar': (context) => CadastrarView(),
         'login': (context) => LoginView(),
         'recuperar' : (context) => RecuperarsenhaView(),
-        'principal' : (context) => TelaPrincipalView()
+        'principal' : (context) => TelaPrincipalView(),
+        'sobre' : (context) => SobreView()
       }
     );
   }

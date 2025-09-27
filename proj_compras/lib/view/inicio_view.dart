@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 class InicioView extends StatelessWidget {
   const InicioView({super.key});
@@ -73,6 +74,34 @@ class InicioView extends StatelessWidget {
                     style: TextStyle(fontSize: 20)),
                   ),
                 ),
+
+
+                const SizedBox(height: 24),
+
+
+                //Sobre
+                SizedBox(
+                width: double.infinity,
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: "Sobre",
+                        style: const TextStyle(
+                          color: Color(0xFF45b5b7),
+                          fontSize: 16, // cor de destaque, tipo link
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline, // opcional
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Navegar para a tela de cadastro
+                            Navigator.pushNamed(context, 'sobre');
+                          },
+                  ),
+                ),
+              )
+
+
               ],
             ),
         ),
