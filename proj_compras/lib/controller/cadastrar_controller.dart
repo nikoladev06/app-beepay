@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CadastrarController extends ChangeNotifier {
   // valida do e-mail
-  String? validarEmail(String? email) {
+  String? validarEmail(String? email) { //String? para aceitar nulo
     if (email == null || email.isEmpty) {
       return 'E-mail não pode ficar em branco';
     }

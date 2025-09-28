@@ -10,7 +10,7 @@ class CadastrarView extends StatefulWidget{
 }
 
 class _CadastrarViewState extends State<CadastrarView> {
- final CadastrarController _controller = CadastrarController();
+  final CadastrarController _controller = CadastrarController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();

@@ -10,7 +10,7 @@ class RecuperarsenhaView extends StatefulWidget {
 }
 
 class _RecuperarsenhaViewState extends State<RecuperarsenhaView> {
-  final RecuperarsenhaController _controller = RecuperarsenhaController();
+    final RecuperarsenhaController _controller = RecuperarsenhaController();
     final TextEditingController _emailController = TextEditingController();
 
 

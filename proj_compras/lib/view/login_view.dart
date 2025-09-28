@@ -10,7 +10,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-   final LoginController _controller = LoginController();
+    final LoginController _controller = LoginController();
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _senhaController = TextEditingController();
 
