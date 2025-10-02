@@ -7,8 +7,8 @@ class CadastrarController extends ChangeNotifier {
       return 'E-mail não pode ficar em branco';
     }
     
-    if (!email.contains('@')) {
-      return 'E-mail deve conter @ e ser válido';
+    if (!email.contains('@') || !email.contains('.com')) {
+      return 'Insira um e-mail válido';
     }
     
     return null;
@@ -20,9 +20,9 @@ class CadastrarController extends ChangeNotifier {
       return 'Nome de usuário não pode ficar em branco';
     }
     
-    if (nome.length < 3) {
-      return 'Nome deve ter pelo menos 3 caracteres';
-    }
+    // if (nome.length < 3) {
+    //   return 'Nome deve ter pelo menos 3 caracteres';
+    // }
     
     return null;
   }
@@ -63,7 +63,7 @@ class CadastrarController extends ChangeNotifier {
     final telefoneLimpo = telefone.replaceAll(RegExp(r'[^\d]'), '');
     
     if (telefoneLimpo.length < 10) {
-      return 'Telefone deve ter pelo menos 10 dígitos';
+      return 'Insira um telefone válido com DDD e código do país';
     }
     
     return null;

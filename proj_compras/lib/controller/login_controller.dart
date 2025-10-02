@@ -8,8 +8,8 @@ class LoginController extends ChangeNotifier {
       return 'E-mail não pode ficar em branco';
     }
     
-    if (!email.contains('@')) {
-      return 'E-mail deve conter @ e ser válido';
+    if (!email.contains('@') || !email.contains('.com')) {
+      return 'Insira um e-mail válido';
     }
     
     return null;
@@ -25,7 +25,7 @@ class LoginController extends ChangeNotifier {
   }
 
   // quando clicar no botão de login vai verificar
-  void fazerLogin(BuildContext context, String email, String senha) {
+  Future<void> fazerLogin(BuildContext context, String email, String senha) async {
     // valida e-mail
     final erroEmail = validarEmail(email);
     if (erroEmail != null) {
@@ -44,12 +44,25 @@ class LoginController extends ChangeNotifier {
       return;
     }
 
-    // se chegou aqui, ta tudo certo
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Login realizado com sucesso!')),
-    );
-    
-    // navega para a tela principal
-    Navigator.pushReplacementNamed(context, 'principal');
+    try {
+      // Simulando uma chamada de API
+      await Future.delayed(const Duration(seconds: 1));
+
+      // se chegou aqui, ta tudo certo
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login realizado com sucesso!')),
+        );
+        
+        // navega para a tela principal
+        Navigator.pushReplacementNamed(context, 'feedeventos');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao fazer login: ${e.toString()}')),
+        );
+      }
+    }
   }
 }

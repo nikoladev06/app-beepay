@@ -9,8 +9,8 @@ class RecuperarsenhaController extends ChangeNotifier{
       return 'E-mail não pode ficar em branco';
     }
     
-    if (!email.contains('@')) {
-      return 'E-mail deve conter @ e ser válido';
+    if (!email.contains('@') || !email.contains('.com')) {
+      return 'Insira um e-mail válido';
     }
     
     return null;

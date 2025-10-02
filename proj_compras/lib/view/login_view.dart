@@ -13,6 +13,7 @@ class _LoginViewState extends State<LoginView> {
     final LoginController _controller = LoginController();
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _senhaController = TextEditingController();
+    bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,20 +69,57 @@ class _LoginViewState extends State<LoginView> {
                   prefixIcon: const Icon(Icons.lock, color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 10),
+
+              //esqueceu senha
+              SizedBox(
+                width: double.infinity,
+                child: RichText(
+                  textAlign: TextAlign.right,
+                  text: TextSpan(
+                    text: "Esqueci a senha",
+                        style: const TextStyle(
+                          color: Color(0xFF45b5b7),
+                          fontSize: 18, // cor de destaque, tipo link
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline, // opcional
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Navegar para a tela de recuperar a senha
+                            Navigator.pushNamed(context, 'recuperar');
+                          },
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
 
               // Botão Login
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    _controller.fazerLogin(
-                      context, 
-                      _emailController.text, 
-                      _senhaController.text
-                    );
-                  },
+                  onPressed: _isLoading
+                      ? null
+                      : () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          try {
+                            await _controller.fazerLogin(
+                              context,
+                              _emailController.text,
+                              _senhaController.text,
+                            );
+                          } finally {
+                            if (mounted) {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF45b5b7),
                     foregroundColor: Colors.white,
@@ -89,10 +127,19 @@ class _LoginViewState extends State<LoginView> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text(
+                          'Login',
+                          style: TextStyle(fontSize: 20),
+                        ),
                 ),
               ),
 
@@ -124,32 +171,6 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
-
-              const SizedBox(height: 200),
-              
-              //esqueceu senha
-
-              SizedBox(
-                width: double.infinity,
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: "Esqueci a senha",
-                        style: const TextStyle(
-                          color: Color(0xFF45b5b7),
-                          fontSize: 16, // cor de destaque, tipo link
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline, // opcional
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            // Navegar para a tela de cadastro
-                            Navigator.pushNamed(context, 'recuperar');
-                          },
-                  ),
-                ),
-              )
-              
             ],
           ),
         ),

@@ -54,7 +54,7 @@ class _SobreViewState extends State<SobreView> {
                     Text(
                       'Uma rede social que permite aos usuários universitários se conectar dentro e fora de suas '
                       'universidades, para formar grupos de estudos, divulgar vagas de emprego e promover eventos '
-                      'ne festas, além de permitir que as próprias universidades se comuniquem com seus alunos.',
+                      'e festas, além de permitir que as próprias universidades se comuniquem com seus alunos.',
                       style: TextStyle(fontSize: 14),
                     ),
                     

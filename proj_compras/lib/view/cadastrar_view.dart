@@ -38,7 +38,6 @@ class _CadastrarViewState extends State<CadastrarView> {
 
 
               //email
-
               TextField(
                  controller: _emailController,
                 style: const TextStyle(color: Colors.white),
@@ -58,7 +57,6 @@ class _CadastrarViewState extends State<CadastrarView> {
               const SizedBox(height: 16),
 
               //nome user
-
               TextField(
                 controller: _nomeController,
                 style: const TextStyle(color: Colors.white),
@@ -77,7 +75,6 @@ class _CadastrarViewState extends State<CadastrarView> {
               const SizedBox(height: 16),
 
               // senha
-
               TextField(
                 controller: _senhaController,
                 obscureText: true,
@@ -97,7 +94,6 @@ class _CadastrarViewState extends State<CadastrarView> {
               const SizedBox(height: 16),
 
               //confirma senha
-
               TextField(
                 controller: _confirmacaoSenhaController,
                 obscureText: true,
@@ -117,7 +113,6 @@ class _CadastrarViewState extends State<CadastrarView> {
               const SizedBox(height: 16),
 
               //telefone
-
               TextField(
                 controller: _telefoneController,
                 style: const TextStyle(color: Colors.white),
