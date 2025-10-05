@@ -13,7 +13,7 @@ class InicioView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(height: 150), // Espaço superior
+                const SizedBox(height: 70), // Espaço superior
 
                 // Logo
                 Image.asset(
@@ -23,6 +23,19 @@ class InicioView extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
 
+                const SizedBox(height: 5),
+
+                 Text(
+                    'Integra',
+                    style: TextStyle(
+                      color: const Color(0xFF45b5b7),
+                      fontSize: 60,
+                      fontWeight: FontWeight.w900, // Mais negrito
+                      letterSpacing: 2.0, // Espaçamento entre letras
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+
                 const SizedBox(height: 20),
 
                 // Subtítulo
@@ -30,7 +43,8 @@ class InicioView extends StatelessWidget {
                   'Descubra. Participe. Integre-se!',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -70,7 +84,7 @@ class InicioView extends StatelessWidget {
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: const Text('Cadastrar',
+                    child: const Text('Cadastro',
                     style: TextStyle(fontSize: 20)),
                   ),
                 ),

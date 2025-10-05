@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/feedeventos_controller.dart';
 import '../model/postevento_model.dart';
+import '../model/user_model.dart';
+import 'addevento_view.dart';
 
 class FeedEventosView extends StatefulWidget {
   const FeedEventosView({super.key});
@@ -14,22 +16,47 @@ class _FeedEventosViewState extends State<FeedEventosView> {
   final FeedEventos _controller = FeedEventos();
   final dateFormat = DateFormat('dd/MM/yyyy HH:mm');
 
+  final _usuarioAtual = UserModel(
+    id: 1,
+    email: "usuario@email.com", 
+    name: "Nome do Usuário",
+    password: "123",
+  );
+
+  void _mostrarTelaCriarEvento() {
+    showDialog(
+      context: context,
+      builder: (context) => AddEventoView(
+        onEventoCriado: (novoEvento) {
+          _controller.addEvento(novoEvento);
+          // atualiza a tela
+          setState(() {});
+        },
+        usuarioAtual: _usuarioAtual,
+      ),
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF111112),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF111112),
+        backgroundColor: const Color.fromARGB(255, 99, 99, 102),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: const Text(
           'Feed de Eventos',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle_outline, color: Color(0xFF45b5b7)),
-            onPressed: () {
-              // TODO: Implementar criação de novo evento
-            },
+            onPressed: _mostrarTelaCriarEvento, // chamando a criação
           ),
         ],
       ),

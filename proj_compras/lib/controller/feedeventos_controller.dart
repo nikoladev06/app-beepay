@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../model/postevento_model.dart';
 import '../model/user_model.dart';
 
@@ -37,4 +36,10 @@ class FeedEventos extends ChangeNotifier {
   List<Evento> get eventos => _eventos;
   bool _visualizarEventos = true;
   bool get visualizarEventos => _visualizarEventos;
+
+void addEvento(Evento newEvento) {
+    _eventos.insert(0, newEvento); // adiciona no início da lista
+    notifyListeners(); // notifica a mudança
+  }
+
 }
