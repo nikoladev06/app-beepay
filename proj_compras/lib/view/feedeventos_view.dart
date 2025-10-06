@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../controller/feedeventos_controller.dart';
 import '../model/postevento_model.dart';
-import '../model/user_model.dart';
 import 'addevento_view.dart';
 
 class FeedEventosView extends StatefulWidget {
@@ -16,28 +15,18 @@ class _FeedEventosViewState extends State<FeedEventosView> {
   final FeedEventos _controller = FeedEventos();
   final dateFormat = DateFormat('dd/MM/yyyy HH:mm');
 
-  final _usuarioAtual = UserModel(
-    id: 1,
-    email: "usuario@email.com", 
-    name: "Nome do Usuário",
-    password: "123",
-  );
-
-  void _mostrarTelaCriarEvento() {
+  void _criarEvento() {
     showDialog(
       context: context,
       builder: (context) => AddEventoView(
         onEventoCriado: (novoEvento) {
           _controller.addEvento(novoEvento);
-          // atualiza a tela
           setState(() {});
         },
-        usuarioAtual: _usuarioAtual,
+        usuarioAtual: _controller.usuarioAtual,
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,147 +36,228 @@ class _FeedEventosViewState extends State<FeedEventosView> {
         backgroundColor: const Color.fromARGB(255, 99, 99, 102),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, 'inicio');
+          },
         ),
-        title: const Text(
-          'Feed de Eventos',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+        title: const Text('Feed de Eventos', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF45b5b7)),
-            onPressed: _mostrarTelaCriarEvento, // chamando a criação
+            icon: const Icon(Icons.add, color: Color(0xFF45b5b7)),
+            onPressed: _criarEvento,
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: _controller.eventos.length,
-        itemBuilder: (context, index) {
-          final evento = _controller.eventos[index];
-          return _buildEventCard(evento);
+      body: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: _controller.eventos.length,
+            itemBuilder: (context, index) => _cardEvento(_controller.eventos[index]),
+          );
         },
       ),
     );
   }
 
-  Widget _buildEventCard(Evento evento) {
+  Widget _cardEvento(Evento evento) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: const EdgeInsets.only(bottom: 8),
       color: Colors.grey[900],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Cabeçalho do card com info do usuário
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: const Color(0xFF45b5b7),
-              child: Text(
-                evento.user.name[0].toUpperCase(),
-                style: const TextStyle(color: Colors.white),
-              ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: const Color(0xFF45b5b7),
+                  radius: 20,
+                  child: Text(
+                    evento.user.name[0],
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        evento.user.name,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        dateFormat.format(evento.createdAt),
+                        style: TextStyle(
+                          color: Colors.grey[400],
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.more_vert, color: Colors.white, size: 20),
+                  onPressed: () {
+                    _controller.mostrarOpcoesEvento(context, evento);
+                  },
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(maxWidth: 40),
+                ),
+              ],
             ),
-            title: Text(
-              evento.user.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            subtitle: Text(
-              'Publicado em ${dateFormat.format(evento.date)}',
-              style: TextStyle(color: Colors.grey[400]),
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.more_vert, color: Colors.white),
-              onPressed: () {
-                // TODO: Implementar menu de opções
-              },
-            ),
-          ),
 
-          // Título do evento
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
+            const SizedBox(height: 12),
+
+            Text(
               evento.title,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-
-          // Descrição do evento
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
+            const SizedBox(height: 8),
+            Text(
               evento.description,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
-          ),
 
-          // Local do evento
-          if (evento.location.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Row(
+            if (evento.location.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Row(
                 children: [
-                  const Icon(Icons.location_on, color: Color(0xFF45b5b7), size: 20),
-                  const SizedBox(width: 8),
+                  const Icon(Icons.location_on, color: Color(0xFF45b5b7), size: 16),
+                  const SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       evento.location,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
               ),
-            ),
-
-          // Data do evento
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
+            ],
+            const SizedBox(height: 4),
+            Row(
               children: [
-                const Icon(Icons.calendar_today, color: Color(0xFF45b5b7), size: 20),
-                const SizedBox(width: 8),
+                const Icon(Icons.calendar_today, color: Color(0xFF45b5b7), size: 16),
+                const SizedBox(width: 6),
                 Text(
                   dateFormat.format(evento.date),
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ],
             ),
-          ),
 
-          // Barra de ações
-          const Divider(color: Colors.grey),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            if (evento.likesCount > 0 || evento.comentarios.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  if (evento.likesCount > 0) 
+                    Text(
+                      '${evento.likesCount} curtidas',
+                      style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                    ),
+                  if (evento.likesCount > 0 && evento.comentarios.isNotEmpty) 
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Text('•', style: TextStyle(color: Colors.grey[400])),
+                    ),
+                  if (evento.comentarios.isNotEmpty)
+                    Text(
+                      '${evento.comentarios.length} comentários',
+                      style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                    ),
+                ],
+              ),
+            ],
+
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildActionButton(Icons.thumb_up_outlined, 'Curtir'),
-                _buildActionButton(Icons.comment_outlined, 'Comentar'),
-                _buildActionButton(Icons.share_outlined, 'Compartilhar'),
+                TextButton(
+                  onPressed: () {
+                    _controller.toggleLike(evento.id);
+                    setState(() {});
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    minimumSize: Size.zero,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        evento.isLiked ? Icons.thumb_up : Icons.thumb_up_outlined,
+                        color: evento.isLiked ? const Color(0xFF45b5b7) : Colors.grey,
+                        size: 18,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Curtir',
+                        style: TextStyle(
+                          color: evento.isLiked ? const Color(0xFF45b5b7) : Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _controller.mostrarDialogComentario(context, evento);
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    minimumSize: Size.zero,
+                  ),
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.comment_outlined, color: Colors.grey, size: 18),
+                      SizedBox(height: 2),
+                      Text(
+                        'Comentar',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _controller.compartilharEvento(context, evento);
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    minimumSize: Size.zero,
+                  ),
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.share_outlined, color: Colors.grey, size: 18),
+                      SizedBox(height: 2),
+                      Text(
+                        'Compartilhar',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-          const SizedBox(height: 8),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionButton(IconData icon, String label) {
-    return TextButton.icon(
-      onPressed: () {
-        // TODO: Implementar ações dos botões
-      },
-      icon: Icon(icon, color: Colors.grey),
-      label: Text(
-        label,
-        style: const TextStyle(color: Colors.grey),
+          ],
+        ),
       ),
     );
   }
