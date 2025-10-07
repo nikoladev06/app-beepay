@@ -99,6 +99,7 @@ class FeedEventos extends ChangeNotifier {
             'Denunciar', 
             Colors.orange, 
             () {
+              Navigator.pop(context);
               _mostrarSnackbar(context, 'Evento denunciado!', Colors.orange);
             }
           ),
@@ -185,8 +186,8 @@ class FeedEventos extends ChangeNotifier {
     _mostrarSnackbar(context, 'Compartilhando: ${evento.title}', const Color(0xFF45b5b7));
   }
 
-  ListTile _buildOpcaoMenu(IconData icon, String texto, Color cor, VoidCallback onTap) {
-    return ListTile(
+  ListTile _buildOpcaoMenu(IconData icon, String texto, Color cor, VoidCallback onTap) { //esse ListTile é melhor para "botões" que são ícone + texto
+    return ListTile(                                                                     // e pra ListTile é melhor usar onTap no lugar de onPressed
       leading: Icon(icon, color: cor),
       title: Text(texto, style: TextStyle(color: cor)),
       onTap: onTap,
@@ -198,7 +199,7 @@ class FeedEventos extends ChangeNotifier {
       SnackBar(
         content: Text(texto), 
         backgroundColor: cor, 
-        duration: const Duration(seconds: 5)
+        duration: const Duration(seconds: 2)
       )
     );
   }

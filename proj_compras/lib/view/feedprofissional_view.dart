@@ -13,3 +13,5 @@ class _FeedProfissionalViewState extends State<FeedProfissionalView> {
     return Scaffold();
   }
 }
+
+// Será implementado em uma outra oportunidade
