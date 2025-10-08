@@ -1,97 +1,84 @@
 import 'package:flutter/material.dart';
-import '../model/postevento_model.dart';
+import '../model/professionalpost_model.dart';
 import '../model/user_model.dart';
 
-class FeedEventos extends ChangeNotifier {
-  final List<Evento> _eventos = [
-    Evento(
+class ProfessionalFeed extends ChangeNotifier {
+  final UserModel usuarioAtual = UserModel(id: 2, email: "usuario@email.com", name: "Usuário", password: "123");
+  final List<ProfessionalPost> _professionalPosts = [
+    ProfessionalPost(
       id: 1,
-      title: "Integra Fatec RP",
-      description: "Halloween da Fatec RP: open bar e muita música",
+      description: "*Vaga de emprego*\n" +
+      "Desenvolvedor Flutter Junior - Ribeirão Preto",
       date: DateTime(2025, 10, 28, 22, 0),
-      location: "",
-      imageUrl: "https://img.oticket.com.br/unsafe/fit-in/1920x1920/filters:format(webp):quality(90)/event/xzeGxbHWebHB7YBbS7bCFbMiC.jpeg",
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4M7nZjgoZAoxHYQi_kKvCnWceK3LWl92uXQ&s",
       user: UserModel(id: 1, email: "admin@admin.com", name: "Admin", password: "123"),
       likesCount: 15,
     ),
-    Evento(
+    ProfessionalPost(
       id: 2,
-      title: "Semana Acadêmica Fatec RP",
       description: "Palestras, workshops e networking com profissionais da área de tecnologia.",
       date: DateTime(2025, 11, 10),
-      location: "Auditório Principal - Fatec RP",
       imageUrl: "https://",
       user: UserModel(id: 1, email: "admin@admin.com", name: "Admin", password: "123"),
       likesCount: 8,
     ),
-    Evento(
+    ProfessionalPost(
       id: 3,
-      title: "InterFatecs 2025",
       description: "Competições esportivas e culturais entre as Fatecs do estado de São Paulo.",
       date: DateTime(2025, 12, 5),
-      location: "Ginásio Municipal de Ribeirão Preto",
-      imageUrl: "https://",
       user: UserModel(id: 1, email: "admin@admin.com", name: "Admin", password: "123"),
       likesCount: 23,
     )
   ];
 
-  List<Evento> get eventos => _eventos;
-  final UserModel _usuarioAtual = UserModel(
-    id: 2,
-    email: "usuario@email.com", 
-    name: "Usuário", 
-    password: "123"
-  );
+  List<ProfessionalPost> get professionalPosts => _professionalPosts;
 
-  UserModel get usuarioAtual => _usuarioAtual;
-
-  void addEvento(Evento newEvento) {
-    _eventos.insert(0, newEvento);
+  void addProfessionalPost(ProfessionalPost newProfessionalPost) {
+    _professionalPosts.insert(0, newProfessionalPost);
     notifyListeners();
   }
 
-  void deleteEvento(int eventoId) {
-    _eventos.removeWhere((e) => e.id == eventoId);
+  void deleteProfessionalPost(int professionalPostId) {
+    _professionalPosts.removeWhere((e) => e.id == professionalPostId);
     notifyListeners();
   }
 
-  void toggleLike(int eventoId) {
-    final evento = _eventos.firstWhere((e) => e.id == eventoId);
-    evento.isLiked = !evento.isLiked;
-    evento.likesCount += evento.isLiked ? 1 : -1;
+  void toggleLike(int professionalPostId) {
+    final professionalPost = _professionalPosts.firstWhere((e) => e.id == professionalPostId);
+    professionalPost.isLiked = !professionalPost.isLiked;
+    professionalPost.likesCount += professionalPost.isLiked ? 1 : -1;
     notifyListeners();
   }
 
-  void addComentario(int eventoId, String texto) {
-    final evento = _eventos.firstWhere((e) => e.id == eventoId);
-    evento.comentarios.add(Comentario(
+  void addComentario(int professionalPostId, String texto) {
+    final professionalPost = _professionalPosts.firstWhere((e) => e.id == professionalPostId);
+    professionalPost.comentarios.add(Comentario(
       id: DateTime.now().millisecondsSinceEpoch,
-      user: _usuarioAtual,
+      user: usuarioAtual,
       text: texto,
       createdAt: DateTime.now(),
     ));
     notifyListeners();
   }
 
-  bool isDonoEvento(Evento evento) {
-    return evento.user.id == _usuarioAtual.id;
+  bool isDonoProfessionalPost(ProfessionalPost professionalPost) {
+    return professionalPost.user.id == usuarioAtual.id;
   }
 
-  void mostrarOpcoesEvento(BuildContext context, Evento evento) {
+  void mostrarOpcoesProfessionalPost(BuildContext context, ProfessionalPost professionalPost) {
     showModalBottomSheet(
       context: context,
       backgroundColor: const Color(0xFF222225),
       builder: (context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (isDonoEvento(evento))
+          if (isDonoProfessionalPost(professionalPost))
             _buildOpcaoMenu(
               Icons.delete, 
               'Excluir', 
               Colors.red, 
               () {
-                _confirmarExclusao(context, evento);
+                _confirmarExclusao(context, professionalPost);
               }
             ),
           _buildOpcaoMenu(
@@ -100,7 +87,7 @@ class FeedEventos extends ChangeNotifier {
             Colors.orange, 
             () {
               Navigator.pop(context);
-              _mostrarSnackbar(context, 'Evento denunciado!', Colors.orange);
+              _mostrarSnackbar(context, 'ProfessionalPost denunciado!', Colors.orange);
             }
           ),
           _buildOpcaoMenu(
@@ -116,13 +103,13 @@ class FeedEventos extends ChangeNotifier {
     );
   }
 
-  void _confirmarExclusao(BuildContext context, Evento evento) {
+  void _confirmarExclusao(BuildContext context, ProfessionalPost professionalPost) {
     Navigator.pop(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF222225),
-        title: const Text('Excluir Evento', style: TextStyle(color: Colors.white)),
+        title: const Text('Excluir ProfessionalPost', style: TextStyle(color: Colors.white)),
         content: const Text('Tem certeza?', style: TextStyle(color: Colors.white)),
         actions: [
           TextButton(
@@ -133,9 +120,9 @@ class FeedEventos extends ChangeNotifier {
           ),
           TextButton(
             onPressed: () {
-              deleteEvento(evento.id);
+              deleteProfessionalPost(professionalPost.id);
               Navigator.pop(context);
-              _mostrarSnackbar(context, 'Evento excluído!', Colors.green);
+              _mostrarSnackbar(context, 'ProfessionalPost excluído!', Colors.green);
             },
             child: const Text('Excluir', style: TextStyle(color: Colors.red)),
           ),
@@ -144,7 +131,7 @@ class FeedEventos extends ChangeNotifier {
     );
   }
 
-  void mostrarDialogComentario(BuildContext context, Evento evento) {
+  void mostrarDialogComentario(BuildContext context, ProfessionalPost professionalPost) {
     final controller = TextEditingController();
     showDialog(
       context: context,
@@ -170,7 +157,7 @@ class FeedEventos extends ChangeNotifier {
             onPressed: () {
               final texto = controller.text.trim();
               if (texto.isNotEmpty) {
-                addComentario(evento.id, texto);
+                addComentario(professionalPost.id, texto);
                 Navigator.pop(context);
                 _mostrarSnackbar(context, 'Comentário adicionado!', Colors.green);
               }
@@ -182,8 +169,8 @@ class FeedEventos extends ChangeNotifier {
     );
   }
 
-  void compartilharEvento(BuildContext context, Evento evento) {
-    _mostrarSnackbar(context, 'Compartilhando: ${evento.title}', const Color(0xFF45b5b7));
+  void compartilharProfessionalPost(BuildContext context, ProfessionalPost professionalPost) {
+    _mostrarSnackbar(context, 'Compartilhando: ${professionalPost.description.substring(0, 20)}...', const Color(0xFF45b5b7));
   }
 
   ListTile _buildOpcaoMenu(IconData icon, String texto, Color cor, VoidCallback onTap) { //esse ListTile é melhor para "botões" que são ícone + texto
@@ -202,5 +189,10 @@ class FeedEventos extends ChangeNotifier {
         duration: const Duration(seconds: 2)
       )
     );
+  }
+
+  void adicionarProfessionalPost(ProfessionalPost novoPost) {
+    _professionalPosts.insert(0, novoPost);
+    notifyListeners();
   }
 }

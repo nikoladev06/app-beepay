@@ -43,7 +43,7 @@ class _FeedEventosViewState extends State<FeedEventosView> {
         title: const Text('Feed de Eventos', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add, color: Color(0xFF45b5b7)),
+            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF45b5b7)),
             onPressed: _criarEvento,
           ),
         ],
@@ -130,6 +130,21 @@ class _FeedEventosViewState extends State<FeedEventosView> {
               evento.description,
               style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
+
+            if (evento.imageUrl != null) ...[
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  evento.imageUrl!,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
 
             if (evento.location.isNotEmpty) ...[
               const SizedBox(height: 8),

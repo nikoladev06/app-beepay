@@ -55,7 +55,7 @@ class LoginController extends ChangeNotifier {
         );
         
         // navega para a tela principal
-        Navigator.pushReplacementNamed(context, 'feedeventos');
+        Navigator.pushReplacementNamed(context, 'principal');
       }
     } catch (e) {
       if (context.mounted) {

@@ -1,11 +1,9 @@
 import 'user_model.dart';
 
-class Evento {
+class ProfessionalPost {
   final int id;
-  final String title;
   final String description;
   final DateTime date;
-  final String location;
   final String? imageUrl;
   final UserModel user;
   final DateTime createdAt;
@@ -13,12 +11,10 @@ class Evento {
   int likesCount;
   List<Comentario> comentarios;
 
-  Evento({
+  ProfessionalPost({
     required this.id,
-    required this.title,
     required this.description,
     required this.date,
-    required this.location,
     this.imageUrl,
     required this.user,
     DateTime? createdAt,

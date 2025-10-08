@@ -5,6 +5,7 @@ class UserModel {
   // final String university;
   // final String course;
   final String password;
+  final String? profileImage;
 
   UserModel({
     required this.id,
@@ -13,5 +14,6 @@ class UserModel {
     // required this.university,
     // required this.course,
     required this.password,
+    this.profileImage,
   });
 }

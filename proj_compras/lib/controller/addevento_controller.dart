@@ -34,7 +34,7 @@ class AddEventoController extends ChangeNotifier {
 
   Evento criarEvento(UserModel usuarioAtual) {
     return Evento(
-      id: DateTime.now().millisecondsSinceEpoch,
+      id: DateTime.now().millisecondsSinceEpoch, //posteriormente gerado automaticamente via BD
       title: tituloController.text,
       description: descricaoController.text,
       date: dataHoraCompleta,
