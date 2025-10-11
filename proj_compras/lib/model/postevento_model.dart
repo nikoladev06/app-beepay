@@ -1,4 +1,5 @@
 import 'user_model.dart';
+import 'comentario_model.dart';
 
 class Evento {
   final int id;
@@ -26,19 +27,4 @@ class Evento {
     this.likesCount = 0,
     this.comentarios = const [],
   }) : createdAt = createdAt ?? DateTime.now();
-}
-
-
-class Comentario {
-  final int id;
-  final UserModel user;
-  final String text;
-  final DateTime createdAt;
-
-  Comentario({
-    required this.id,
-    required this.user,
-    required this.text,
-    required this.createdAt,
-  });
 }

@@ -137,7 +137,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         )
                       : const Text(
-                          'Login',
+                          'Entrar',
                           style: TextStyle(fontSize: 20),
                         ),
                 ),

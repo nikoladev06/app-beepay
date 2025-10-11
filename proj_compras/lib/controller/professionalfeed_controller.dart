@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/professionalpost_model.dart';
 import '../model/user_model.dart';
+import '../model/comentario_model.dart';
 
 class ProfessionalFeed extends ChangeNotifier {
   final UserModel usuarioAtual = UserModel(id: 2, email: "usuario@email.com", name: "Usuário", password: "123");
@@ -10,13 +11,14 @@ class ProfessionalFeed extends ChangeNotifier {
       description: "*Vaga de emprego*\n" +
       "Desenvolvedor Flutter Junior - Ribeirão Preto",
       date: DateTime(2025, 10, 28, 22, 0),
-      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4M7nZjgoZAoxHYQi_kKvCnWceK3LWl92uXQ&s",
+      // imageUrl: "https://storage.googleapis.com/cms-storage-bucket/build-more-with-flutter.f399274b364a6194c43d.png",
       user: UserModel(id: 1, email: "admin@admin.com", name: "Admin", password: "123"),
       likesCount: 15,
     ),
     ProfessionalPost(
       id: 2,
-      description: "Palestras, workshops e networking com profissionais da área de tecnologia.",
+      description: "*Vaga de emprego*\n" +
+      "Analista de Suporte Junior - Ribeirão Preto",
       date: DateTime(2025, 11, 10),
       imageUrl: "https://",
       user: UserModel(id: 1, email: "admin@admin.com", name: "Admin", password: "123"),
@@ -24,7 +26,8 @@ class ProfessionalFeed extends ChangeNotifier {
     ),
     ProfessionalPost(
       id: 3,
-      description: "Competições esportivas e culturais entre as Fatecs do estado de São Paulo.",
+      description: "*Vaga de emprego*\n" +
+      "Estágio em Banco de Dados - Ribeirão Preto",
       date: DateTime(2025, 12, 5),
       user: UserModel(id: 1, email: "admin@admin.com", name: "Admin", password: "123"),
       likesCount: 23,

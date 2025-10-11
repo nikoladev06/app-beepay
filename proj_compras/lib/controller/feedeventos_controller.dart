@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/postevento_model.dart';
 import '../model/user_model.dart';
+import '../model/comentario_model.dart';
 
 class FeedEventos extends ChangeNotifier {
   final List<Evento> _eventos = [

@@ -52,9 +52,7 @@ class _SobreViewState extends State<SobreView> {
                     
                     SizedBox(height: 10),
                     Text(
-                      'Uma rede social que permite aos usuários universitários se conectar dentro e fora de suas '
-                      'universidades, para formar grupos de estudos, divulgar vagas de emprego e promover eventos '
-                      'e festas, além de permitir que as próprias universidades se comuniquem com seus alunos.',
+                      'O Integra é uma rede social com o objetivo de facilitar a conexão entre estudantes, permitindo a divulgação de eventos (principalmente relacionados a estudos e faculdades) e vagas/posts relacionados ao mercado de trabalho (com foco em vagas de estágio e júnior).',
                       style: TextStyle(fontSize: 14),
                     ),
                     
